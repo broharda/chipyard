@@ -164,7 +164,7 @@ else
     $SUDO "$CONDA_EXE" install $DRY_RUN_OPTION -y -n base conda-lock
 
     # Use the fast solver by default
-    "${DRY_RUN_ECHO[@]}" $SUDO "$CONDA_EXE" config --system --set experimental_solver libmamba
+    "${DRY_RUN_ECHO[@]}" $SUDO "$CONDA_EXE" config --system --set solver libmamba
 
     conda_init_extra_args=()
     if [[ "$INSTALL_TYPE" == system ]]; then
