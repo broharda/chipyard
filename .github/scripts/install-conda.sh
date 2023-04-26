@@ -133,17 +133,17 @@ CONDA_EXE="${CONDA_INSTALL_PREFIX}/bin/$CONDA_CMD"
 if [[ -x "$CONDA_EXE" && $REINSTALL_CONDA -eq 0 ]]; then
     echo "::INFO:: '$CONDA_EXE' already exists, skipping conda install"
 else
-    wget -O install_conda.sh "$CONDA_INSTALLER"  || curl -fsSLo install_conda.sh "$CONDA_INSTALLER"
-    if [[ $REINSTALL_CONDA -eq 1 ]]; then
-        conda_install_extra="-u"
-        echo "::INFO:: RE-installing conda to '$CONDA_INSTALL_PREFIX'"
-    else
-        conda_install_extra=""
-        echo "::INFO:: installing conda to '$CONDA_INSTALL_PREFIX'"
-    fi
-    # -b for non-interactive install
-    $SUDO bash ./install_conda.sh -b -p "$CONDA_INSTALL_PREFIX" $conda_install_extra
-    rm ./install_conda.sh
+    # wget -O install_conda.sh "$CONDA_INSTALLER"  || curl -fsSLo install_conda.sh "$CONDA_INSTALLER"
+    # if [[ $REINSTALL_CONDA -eq 1 ]]; then
+    #     conda_install_extra="-u"
+    #     echo "::INFO:: RE-installing conda to '$CONDA_INSTALL_PREFIX'"
+    # else
+    #     conda_install_extra=""
+    #     echo "::INFO:: installing conda to '$CONDA_INSTALL_PREFIX'"
+    # fi
+    # # -b for non-interactive install
+    # $SUDO bash ./install_conda.sh -b -p "$CONDA_INSTALL_PREFIX" $conda_install_extra
+    # rm ./install_conda.sh
 
     # see https://conda-forge.org/docs/user/tipsandtricks.html#multiple-channels
     # for more information on strict channel_priority
