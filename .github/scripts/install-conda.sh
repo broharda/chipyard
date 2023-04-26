@@ -92,6 +92,8 @@ OS_VERSION=$(grep '^VERSION_ID=' /etc/os-release | awk -F= '{print $2}' | tr -d 
 
 # platform-specific setup
 case "$OS_FLAVOR" in
+    debian)
+        ;;
     ubuntu)
         ;;
     centos)
