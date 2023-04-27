@@ -34,7 +34,7 @@ RUN ./chipyard/.github/scripts/install-conda.sh
 # BUILD IMAGE WITH TOOLCHAINS
 
 # Use above build as base
-FROM base as base-with-tools
+# FROM base as base-with-tools
 
 SHELL ["/bin/bash", "-cl"]
 
