@@ -2,7 +2,8 @@
 
 # BUILD BASE FOR CI
 
-FROM ubuntu:20.04 as base
+#FROM ubuntu:22.04 as base
+FROM continuumio/miniconda3 as base
 ARG CHIPYARD_HASH
 
 MAINTAINER https://groups.google.com/forum/#!forum/chipyard
@@ -25,16 +26,16 @@ RUN apt-get update && \
 WORKDIR /root
 
 # Install Chipyard and run ubuntu-req.sh to install necessary dependencies
-RUN git clone https://github.com/ucb-bar/chipyard.git && \
-        cd chipyard && \
-        git checkout $CHIPYARD_HASH
+RUN git clone https://github.com/broharda/chipyard.git && \
+     cd chipyard && \
+     git checkout $CHIPYARD_HASH
 
 RUN ./chipyard/.github/scripts/install-conda.sh
 
 # BUILD IMAGE WITH TOOLCHAINS
 
 # Use above build as base
-# FROM base as base-with-tools
+FROM base as base-with-tools
 
 SHELL ["/bin/bash", "-cl"]
 
@@ -42,20 +43,20 @@ SHELL ["/bin/bash", "-cl"]
 RUN cd chipyard && \
         export MAKEFLAGS=-"j $(nproc)" && \
         conda activate base && \
-        ./setup.sh --env-name chipyard --skip-validate
+        ./build-setup.sh --skip-validate -s 6 -s 7 -s 8 -s 9
 
 SHELL ["/opt/conda/bin/conda", "run", "-n", "chipyard", "/bin/bash", "-cl"]
 
 # Set up FireMarshal. Building and cleaning br-base.json builds the underlying
 # buildroot image (which takes a long time) but doesn't keep all the br-base
 # stuff around (since that's faster to rebuild).
-RUN cd chipyard && \
-        source env.sh && \
-        cd software/firemarshal && \
-        ./init-submodules.sh && \
-        pip3 install -r python-requirements.txt && \
-        ./marshal build br-base.json && \
-        ./marshal clean br-base.json
+#RUN cd chipyard && \
+#        source env.sh && \
+#        cd software/firemarshal && \
+#        ./init-submodules.sh && \
+#        pip3 install -r python-requirements.txt && \
+#        ./marshal build br-base.json && \
+#        ./marshal clean br-base.json
 
 # Run script to set environment variables on entry
 ENTRYPOINT ["chipyard/scripts/entrypoint.sh"]
